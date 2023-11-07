@@ -1,0 +1,21 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+data = pd.read_csv("Salary_Data.csv")
+X=data["YearsExperience"]
+Y=data["Salary"]
+from sklearn.model_selection import train_test_split
+X_train, X_test, Y_train, Y_test = train_test_split(X,Y, test_size=0.25,random_state=10)
+lin_model = LinearRegression()
+lin_model.fit(X_train[:, np.newaxis], Y_train)
+predicated_salary = lin_model.predict(X_test[:, np.newaxis])
+r2_score = lin_model.score(X_test[:, np.newaxis], Y_test)
+# Print the r2 score
+print("R-squared score:", r2_score)
+plt.scatter(X_test, Y_test, label="Predicted salary")
+plt.plot(X_test, predicated_salary, color="red", label="Actual salary")
+plt.xlabel("Years of experience")
+plt.ylabel("Salary")
+plt.legend()
+plt.show()
